@@ -1,33 +1,21 @@
 import React from "react";
 import Slider from "./SliderComponent/Slider";
 import styled from "styled-components";
-import { Box } from "grommet";
-import { IconButton } from "grommet-controls";
-import { FormPrevious } from "grommet-icons";
-import { FormNext } from "grommet-icons";
+import Card from "./SliderComponent/Card";
 // import Carrousel from "./Carrousel/HorizontalCarrousel";
 
 function App() {
   
   return (
     <Container>
-      <Box
-        direction="column"
-        border="all"
-        justify="center"
-        background={{ color: "black" }}
-      >
-        <Div>
-          <div>
-            <h1>Recently viewed</h1>
-          </div>
-          <ButtonContainer>
-            <IconButton icon={<FormPrevious />} />
-            <IconButton icon={<FormNext />} />
-          </ButtonContainer>
-        </Div>
-        <Slider />
-      </Box>
+      <Slider title="Recently viewed" previous="FormPrevious" next="FormNext">
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </Slider>
     </Container>
     //---- Carrousel testing
     // <Carrousel />
@@ -36,18 +24,6 @@ function App() {
 
 const Container = styled.div`
   margin: 50px;
-  overflow: hidden;
-`;
-const Div = styled.div`
-  min-width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-const ButtonContainer = styled.div`
-  margin: 10px;
-  @media all and (min-width: 360px) {
-    display: flex;
-  }
 `;
 
 export default App;
