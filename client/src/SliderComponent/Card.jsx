@@ -8,7 +8,7 @@ const Card = () => {
     <StyledCard>
       <Div>
         <CardContent>
-          <Imagen width="200px" height="200px" />
+          <Imagen />
         </CardContent>
         <div>Ronier Ramos</div>
         <div>Sofware Developer</div>

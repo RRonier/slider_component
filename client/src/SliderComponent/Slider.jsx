@@ -6,17 +6,24 @@ import { Next, Previous } from "grommet-icons";
 
 const Slider = ({ title, stepWidth, ...props }) => {
   const [state, setState] = useState({
-    card_container: null,
     currentCard: 0,
-    numberOfCards: null,
+    position: 0,
+    width: 0,
+    numberOfCards: 0,
+    card_container: null,
+    lastCard: 0,
+    box: null,
   });
 
   useEffect(() => {
     setState({
       ...state,
       numberOfCards: state.card_container.children.length,
+      lastCard:
+        state.card_container.children[state.card_container.children.length - 1],
     });
   }, []);
+
   useEffect(() => {
     state.card_container.style.transitionDuration = "0.5s";
     state.card_container.style.transform = `translate(-${
@@ -36,6 +43,23 @@ const Slider = ({ title, stepWidth, ...props }) => {
   };
 
   let moveNextCard = () => {
+    // console.log(state.lastCard.getBoundingClientRect().width);
+    // console.log(state.box.getBoundingClientRect().width);
+    console.log(`box-right: ${state.box.getBoundingClientRect().right}`);
+    console.log(
+      `lastCard-right: ${state.lastCard.getBoundingClientRect().right}`
+    );
+    console.log(
+      `cardContainer-right: ${
+        state.card_container.getBoundingClientRect().right
+      }`
+    );
+
+    // console.log(
+    //   state.card_container.getBoundingClientRect().right -
+    //     state.box.getBoundingClientRect().right
+    // );
+    state.lastCard.style.border = "dashed red";
     if (state.currentCard < state.card_container.children.length - 1) {
       let new_current_card = state.currentCard + 1;
       setState({
@@ -48,12 +72,13 @@ const Slider = ({ title, stepWidth, ...props }) => {
 
   return (
     <Box
+      ref={(ref_id) => (state.box = ref_id)}
       direction="column"
       border="all"
-      justify="center"
       background={{ color: "black" }}
       overflow="hidden"
-      width="80vw"
+      height="auto"
+      width="1125px"
     >
       <StyledDiv>
         <div>
@@ -69,7 +94,11 @@ const Slider = ({ title, stepWidth, ...props }) => {
             />
             <IconButton
               icon={<Next />}
-              disabled={state.currentCard + 5 === state.numberOfCards}
+              // disabled={state.currentCard + 5 === state.numberOfCards}
+              disabled={
+                state.box.getBoundingClientRect().right >
+                  state.lastCard.getBoundingClientRect().right
+              }
               onClick={moveNextCard}
             />
           </ButtonContainer>
@@ -83,8 +112,10 @@ const Slider = ({ title, stepWidth, ...props }) => {
 };
 
 const Div = styled.div`
-  min-width: 100%;
   display: flex;
+  width: fit-content;
+  border: dashed;
+  height: auto;
 `;
 const StyledDiv = styled.div`
   min-width: 100%;
