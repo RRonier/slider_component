@@ -8,7 +8,7 @@ const Card = () => {
     <StyledCard>
       <Div>
         <CardContent>
-          <Imagen width="200" height="200" />
+          <Imagen width="200px" height="200px" />
         </CardContent>
         <div>Ronier Ramos</div>
         <div>Sofware Developer</div>
@@ -23,12 +23,12 @@ const StyledCard = styled.div`
   border-radius: ${(props) =>
     props.left ? " 6px 0 0 6px" : props.right ? "0 6px 6px 0" : "6px"};
   background: ${(props) => (props.secondary === undefined ? "none" : "white")};
-  padding: 25px 20px;
+  padding: 0 10px;
   height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3px 5px 3px 5px;
+  margin: 3px 1px 3px 1px;
   @media all and (max-width: 1240px) {
     margin-bottom: 20px;
     border-radius: 6px;
