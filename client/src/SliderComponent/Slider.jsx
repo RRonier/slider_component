@@ -7,8 +7,8 @@ import { Next, Previous } from "grommet-icons";
 const Slider = ({ title, stepWidth, ...props }) => {
   const [state, setState] = useState({
     currentCard: 0,
-    position: 0,
-    width: 0,
+    box_position: 0,
+    last_card_position: 0,
     numberOfCards: 0,
     card_container: null,
     lastCard: 0,
@@ -21,6 +21,8 @@ const Slider = ({ title, stepWidth, ...props }) => {
       numberOfCards: state.card_container.children.length,
       lastCard:
         state.card_container.children[state.card_container.children.length - 1],
+      box_position: state.box.getBoundingClientRect().right,
+      last_card_position: state.card_container.getBoundingClientRect().right,
     });
   }, []);
 
@@ -43,8 +45,6 @@ const Slider = ({ title, stepWidth, ...props }) => {
   };
 
   let moveNextCard = () => {
-    // console.log(state.lastCard.getBoundingClientRect().width);
-    // console.log(state.box.getBoundingClientRect().width);
     console.log(`box-right: ${state.box.getBoundingClientRect().right}`);
     console.log(
       `lastCard-right: ${state.lastCard.getBoundingClientRect().right}`
@@ -54,11 +54,6 @@ const Slider = ({ title, stepWidth, ...props }) => {
         state.card_container.getBoundingClientRect().right
       }`
     );
-
-    // console.log(
-    //   state.card_container.getBoundingClientRect().right -
-    //     state.box.getBoundingClientRect().right
-    // );
     state.lastCard.style.border = "dashed red";
     if (state.currentCard < state.card_container.children.length - 1) {
       let new_current_card = state.currentCard + 1;
@@ -85,7 +80,7 @@ const Slider = ({ title, stepWidth, ...props }) => {
           <Title>{title}</Title>
         </div>
 
-        {state.numberOfCards > 5 && (
+        {state.box_position <= state.last_card_position && (
           <ButtonContainer>
             <IconButton
               icon={<Previous />}
@@ -94,11 +89,7 @@ const Slider = ({ title, stepWidth, ...props }) => {
             />
             <IconButton
               icon={<Next />}
-              // disabled={state.currentCard + 5 === state.numberOfCards}
-              disabled={
-                state.box.getBoundingClientRect().right >
-                  state.lastCard.getBoundingClientRect().right
-              }
+              disabled={state.box_position >= state.last_card_position}
               onClick={moveNextCard}
             />
           </ButtonContainer>
