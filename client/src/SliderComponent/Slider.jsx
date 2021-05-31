@@ -22,9 +22,6 @@ const Slider = ({ title, stepWidth, ...props }) => {
         wider: true,
       }));
     }
-    // if(state.distance <= 0) {
-    //   card_container.current.left = `translate(700px)`
-    // }
   }, [state.box_position, state.last_card_position]);
 
   //move the cards after the button is clicked
