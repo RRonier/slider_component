@@ -12,21 +12,27 @@ const Slider = ({ title, stepWidth, ...props }) => {
     box_position: 0,
     distance: 0,
     last_card_position: 0,
+    stepWidth: stepWidth,
     wider: false,
   });
 
   useEffect(() => {
-    if (state.last_card_position > state.box_position) {
+    if (
+      card_container.current.getBoundingClientRect().right >
+      box.current.getBoundingClientRect().right
+    ) {
       setState((prevState) => ({
         ...prevState,
         wider: true,
       }));
     }
-  }, [state.box_position, state.last_card_position]);
+  }, []);
 
   //move the cards after the button is clicked
   useEffect(() => {
-    let distance = state.last_card_position - state.box_position;
+    let distance =
+      card_container.current.getBoundingClientRect().right -
+      box.current.getBoundingClientRect().right;
     setState((myState) => ({
       ...myState,
       box_position: box.current.getBoundingClientRect().right,
@@ -35,7 +41,11 @@ const Slider = ({ title, stepWidth, ...props }) => {
     }));
 
     card_container.current.style.transitionDuration = "0.5s";
-    if (state.distance > 100) {
+    if (
+      card_container.current.getBoundingClientRect().right -
+        box.current.getBoundingClientRect().right >
+      100
+    ) {
       card_container.current.style.transform = `translate(-${
         stepWidth * state.move
       }px)`;
@@ -49,6 +59,12 @@ const Slider = ({ title, stepWidth, ...props }) => {
   let movePrevCard = () => {
     console.clear();
     console.log(`distance: ${state.distance}`);
+    console.log(
+      `distance: ${
+        card_container.current.getBoundingClientRect().right -
+        box.current.getBoundingClientRect().right
+      }`
+    );
     setState((prevState) => ({
       ...prevState,
       box_position: prevState.box_position + 2,
@@ -72,6 +88,12 @@ const Slider = ({ title, stepWidth, ...props }) => {
   let moveNextCard = () => {
     console.clear();
     console.log(`distance: ${state.distance}`);
+    console.log(
+      `distance: ${
+        card_container.current.getBoundingClientRect().right -
+        box.current.getBoundingClientRect().right
+      }`
+    );
     setState((prevState) => ({
       ...prevState,
       box_position: box.current.getBoundingClientRect().right,
@@ -99,9 +121,8 @@ const Slider = ({ title, stepWidth, ...props }) => {
     <Box
       ref={box}
       direction="column"
-      border="all"
       background={{ color: "black" }}
-      overflow="hidden"
+      // overflow="hidden"
       height="auto"
       width="1125px"
     >
@@ -133,7 +154,7 @@ const Slider = ({ title, stepWidth, ...props }) => {
 const Div = styled.div`
   display: flex;
   width: fit-content;
-  border: dashed;
+  border: dashed green;
   height: auto;
 `;
 const StyledDiv = styled.div`

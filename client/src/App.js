@@ -5,16 +5,15 @@ import Card from "./SliderComponent/Card";
 // import Carrousel from "./Carrousel/HorizontalCarrousel";
 
 function App() {
-  
   return (
     <Container>
-      <Slider title="Recently viewed" previous="FormPrevious" next="FormNext">
+      <Slider title="Recently viewed" stepWidth="500">
         <Card />
         <Card />
         <Card />
         <Card />
         <Card />
-        <Card />
+        <Card />  
       </Slider>
     </Container>
     //---- Carrousel testing
@@ -23,7 +22,7 @@ function App() {
 }
 
 const Container = styled.div`
-  margin: 50px;
+  margin: 0 50px 0 50px;
 `;
 
 export default App;
