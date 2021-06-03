@@ -14,82 +14,88 @@ const Slider = ({ title, stepWidth, ...props }) => {
     last_card_position: 0,
     stepWidth: stepWidth,
     wider: false,
+    difference: 0,
   });
 
-  //Add values to the state at first render
   useEffect(() => {
-    console.clear();
-    setState({
-      ...state,
+    setState((prevState) => ({
+      ...prevState,
       box_position: box.current.getBoundingClientRect().right,
       last_card_position: card_container.current.getBoundingClientRect().right,
+      difference:
+        card_container.current.getBoundingClientRect().right -
+        box.current.getBoundingClientRect().width,
       distance:
         card_container.current.getBoundingClientRect().right -
         box.current.getBoundingClientRect().right,
       wider:
         card_container.current.getBoundingClientRect().right >
-        box.current.getBoundingClientRect().right ? true : false
-    });
+        box.current.getBoundingClientRect().right
+          ? true
+          : false,
+    }));
   }, []);
 
+  //Add values to the state at first render
   useEffect(() => {
-    //move the cards after the button is clicked
     card_container.current.style.transitionDuration = "0.5s";
     card_container.current.style.transform = `translate(-${
       stepWidth * state.move
     }px)`;
-    
-  }, [state.move, state.distance, state.last_card_position]);
+    console.clear();
+    console.log(
+      `Distance translated: ${card_container.current.style.transform}`
+    );
+    console.log(
+      `Card container right: ${
+        card_container.current.getBoundingClientRect().right
+      }`
+    );
+    console.log(
+      `Card container width: ${
+        card_container.current.getBoundingClientRect().width
+      }`
+    );
+    console.log(`Box width: ${box.current.getBoundingClientRect().width}`);
+    console.log(`Box right: ${box.current.getBoundingClientRect().right}`);
+    let difference =
+      card_container.current.getBoundingClientRect().right -
+      box.current.getBoundingClientRect().right;
+    console.log(`Box & card_container right difference: ${difference}`);
+    console.log(
+      card_container.current.getBoundingClientRect().right - stepWidth >
+        box.current.getBoundingClientRect().right
+    );
+    console.log(
+      card_container.current.getBoundingClientRect().right -
+        box.current.getBoundingClientRect().right <=
+        0
+    );
+    console.log(
+      card_container.current.getBoundingClientRect().right -
+        stepWidth -
+        box.current.getBoundingClientRect().right <
+        0
+    );
+  }, [state.move]);
 
   //Move the cards to the right
   let movePrevCard = () => {
-    setState((myState) => ({
-      ...myState,
-      last_card_position: card_container.current.getBoundingClientRect().right,
-    }));
-
     //increase move counter
     if (state.move > 0) {
-      let new_current_card = state.move - 1;
       setState((prevState) => ({
         ...prevState,
-        move: new_current_card,
+        move: prevState.move - 1,
       }));
     }
-    return;
   };
 
   //Move the cards to the left
   let moveNextCard = () => {
-    console.clear();
-    console.log(`distance: ${state.distance}`);
-    console.log(
-      `distance: ${
-        card_container.current.getBoundingClientRect().right -
-        box.current.getBoundingClientRect().right
-      }`
-    );
     setState((prevState) => ({
       ...prevState,
-      box_position: box.current.getBoundingClientRect().right,
-      last_card_position: card_container.current.getBoundingClientRect().right,
+      move: prevState.move + 1,
     }));
-
-    if (state.distance <= 0) {
-      card_container.current.style.transform = `translate(${
-        box.current.getBoundingClientRect().right
-      }px)`;
-    }
-
-    // if (state.move < card_container.current.children.length - 1) {
-    if (state.last_card_position > state.box_position) {
-      let new_current_card = state.move + 1;
-      setState((prevState) => ({
-        ...prevState,
-        move: new_current_card,
-      }));
-    }
-    return;
   };
 
   return (
@@ -115,7 +121,15 @@ const Slider = ({ title, stepWidth, ...props }) => {
             />
             <IconButton
               icon={<Next />}
-              disabled={state.distance === 0 || state.distance <= 0}
+              disabled={
+                card_container.current.getBoundingClientRect().right -
+                  stepWidth -
+                  box.current.getBoundingClientRect().right <
+                  0 &&
+                card_container.current.getBoundingClientRect().right -
+                  box.current.getBoundingClientRect().right >
+                  0
+              }
               onClick={moveNextCard}
             />
           </ButtonContainer>
