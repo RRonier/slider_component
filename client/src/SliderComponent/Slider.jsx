@@ -44,40 +44,31 @@ const Slider = ({ title, stepWidth, ...props }) => {
     }px)`;
     console.clear();
     console.log(
-      `Distance translated: ${card_container.current.style.transform}`
-    );
-    console.log(
-      `Card container right: ${
-        card_container.current.getBoundingClientRect().right
-      }`
-    );
-    console.log(
-      `Card container width: ${
-        card_container.current.getBoundingClientRect().width
-      }`
-    );
-    console.log(`Box width: ${box.current.getBoundingClientRect().width}`);
-    console.log(`Box right: ${box.current.getBoundingClientRect().right}`);
-    let difference =
-      card_container.current.getBoundingClientRect().right -
-      box.current.getBoundingClientRect().right;
-    console.log(`Box & card_container right difference: ${difference}`);
-    console.log(
-      card_container.current.getBoundingClientRect().right - stepWidth >
-        box.current.getBoundingClientRect().right
-    );
-    console.log(
-      card_container.current.getBoundingClientRect().right -
-        box.current.getBoundingClientRect().right <=
-        0
-    );
-    console.log(
       card_container.current.getBoundingClientRect().right -
         stepWidth -
         box.current.getBoundingClientRect().right <
-        0
+        0 &&
+        card_container.current.getBoundingClientRect().right -
+          box.current.getBoundingClientRect().right >
+          0
     );
-  }, [state.move]);
+    console.log("-------testing------------");
+    console.log(
+      `${
+        card_container.current.getBoundingClientRect().right -
+          stepWidth -
+          box.current.getBoundingClientRect().right <
+        0
+      }`
+    );
+
+    console.log(
+      `${
+        card_container.current.getBoundingClientRect().right <
+        box.current.getBoundingClientRect().right
+      }`
+    );
+  }, [state.move, card_container.current]);
 
   //Move the cards to the right
   let movePrevCard = () => {
@@ -126,9 +117,8 @@ const Slider = ({ title, stepWidth, ...props }) => {
                   stepWidth -
                   box.current.getBoundingClientRect().right <
                   0 &&
-                card_container.current.getBoundingClientRect().right -
-                  box.current.getBoundingClientRect().right >
-                  0
+                card_container.current.getBoundingClientRect().right <
+                  box.current.getBoundingClientRect().right
               }
               onClick={moveNextCard}
             />
@@ -143,7 +133,7 @@ const Slider = ({ title, stepWidth, ...props }) => {
 const Div = styled.div`
   display: flex;
   width: fit-content;
-  border: dashed green;
+  // border: dashed green;
   height: auto;
 `;
 const StyledDiv = styled.div`

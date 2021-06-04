@@ -7,13 +7,19 @@ import Card from "./SliderComponent/Card";
 function App() {
   return (
     <Container>
-      <Slider title="Recently viewed" stepWidth="500">
+      <Slider title="Recently viewed" stepWidth="200">
         <Card />
         <Card />
         <Card />
         <Card />
         <Card />
         <Card />  
+        <Card />  
+        <Card />  
+        <Card />  
+        <Card />  
+        <Card />  
+      
       </Slider>
     </Container>
     //---- Carrousel testing
